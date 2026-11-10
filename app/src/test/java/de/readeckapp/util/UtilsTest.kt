@@ -12,6 +12,10 @@ class UtilsTest {
             "https://example.com" to SharedText(url = "https://example.com"),
             "before title https://example.com" to SharedText(url = "https://example.com", "before title"),
             "https://example.com after title" to SharedText(url = "https://example.com", "after title"),
+            "Источник: Хабр https://habr.com/ru/articles/1104778/" to SharedText(url = "https://habr.com/ru/articles/1104778/"),
+            "Source: The Verge https://example.com" to SharedText(url = "https://example.com"),
+            "Real title\nИсточник: Хабр https://example.com" to SharedText(url = "https://example.com", "Real title"),
+            "Open source: why it matters https://example.com" to SharedText(url = "https://example.com", "Open source: why it matters"),
         )
         testSet.forEachIndexed { index, testSet ->
             assertEquals("Error in testSet $index", testSet.second, testSet.first.extractUrlAndTitle())

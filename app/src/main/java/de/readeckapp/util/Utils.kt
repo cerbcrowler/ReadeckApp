@@ -17,6 +17,15 @@ fun String?.isValidUrl(): Boolean {
 }
 
 /**
+ * Lines like "Source: Habr" that some apps (e.g. the Google app) put next to a shared link.
+ * They name the site, not the article, so they must not become the bookmark title.
+ */
+private val sourceLabelRegex = Regex(
+    "^(source|quelle|fuente|fonte|źródło|источник|джерело)\\s*:.*$",
+    RegexOption.IGNORE_CASE
+)
+
+/**
  * Detects the first valid URL in a given string and returns it along with the rest of the string as the title.
  * This function handles cases where the URL might be embedded within a larger string.
  *
@@ -72,7 +81,12 @@ fun String?.extractUrlAndTitle(): SharedText? {
     }
 
     return if (foundUrl != null && foundUrl.isValidUrl()) {
-        SharedText(url = foundUrl, title = titleBuilder.toString().trim().ifBlank { null })
+        val title = titleBuilder.lines()
+            .filterNot { sourceLabelRegex.matches(it.trim()) }
+            .joinToString("\n")
+            .trim()
+            .ifBlank { null }
+        SharedText(url = foundUrl, title = title)
     } else {
         null
     }
