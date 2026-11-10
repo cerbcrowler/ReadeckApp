@@ -94,6 +94,8 @@ android {
         }
         create("githubRelease") {
             dimension = "version"
+            // sudden fork: own id, installs next to the original app
+            applicationIdSuffix = ".sudden"
             versionName = System.getenv()["RELEASE_VERSION_NAME"] ?: defaultConfig.versionName
             versionCode = System.getenv()["RELEASE_VERSION_CODE"]?.toInt() ?: defaultConfig.versionCode
             signingConfig = signingConfigs.getByName("release")
