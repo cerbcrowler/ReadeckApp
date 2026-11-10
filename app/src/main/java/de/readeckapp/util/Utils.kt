@@ -52,6 +52,9 @@ fun String?.extractUrlAndTitle(): SharedText? {
                 // The title is everything before and after the URL on this line, plus subsequent lines
                 val urlIndex = trimmedLine.indexOf(urlInLine)
                 if (urlIndex > 0) {
+                    if (titleBuilder.isNotEmpty()) {
+                        titleBuilder.append("\n")
+                    }
                     titleBuilder.append(trimmedLine.substring(0, urlIndex).trim())
                 }
                 if (titleBuilder.isNotEmpty()) {
